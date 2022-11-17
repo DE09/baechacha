@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include 'base/head.html'%}
+</head>
+
+<body class="body">
+    {% include 'base/navbar.html'%}
+    <p class="title" id="text">배차넷닷컴</p>
+    <button id="login">로그인</button>
+
+    <div class="black-bg" id="box2">
+        <div class="white-bg">
+            <h4>로그인하세요</h4>
+
+            <!-- form은 서버로 정보 전송할라고 쓰는거임 -->
+            <!-- url을 써줘야함 -->
+            <form action="success" id="success">
+                <div class="my-3">
+                    <input type="text" class="form-control" id="email">
+                </div>
+                <div class="my-3">
+                    <input type="password" class="form-control" id="pw">
+                </div>
+                <button type="submit" class="btn btn-primary" id="send">전송</button>
+                <button type="button" class="btn btn-danger" id="close">닫기</button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div>
+        <input type="text" class="form-control" id="multiplication">
+        <button id="click">제출</button>
+    </div>
+
+
+    <table class="table table-bordered">
+        <thead>
+            <th>날짜</th>
+            <th>화주명</th>
+            <th>BL</th>
+            <th>담당자</th>
+            <th>배차상황</th>
+            <th>운송료</th>
+            <th>운송사</th>
+            <th>비고</th>
+        </thead>
+
+        <tbody>
+            {% for shipment in shipments %}
+            <tr>
+                <form action="/update" method="post">
+                    {% csrf_token %}
+                    <td><input type="date" value="{{shipment.date|date:'Y-m-d'}}" name="date"></td>
+                    <td><input type="text" value="{{shipment.customer}}" name="customer"></td>
+                    <td><input type="text" value="{{shipment.bl}}" name="bl"></td>
+                    <td><input type="text" value="{{shipment.pic}}" name="pic"></td>
+                    <td>
+                        <select name="status">
+                            <option selected>{{shipment.status}}</option>
+                            <option value="배차전">배차전</option>
+                            <option value="배차중">배차중</option>
+                            <option value="배차완료">배차완료</option>
+                        </select>
+                    </td>
+                    <td><input type="text" value="{{shipment.trc}}" name="trc"></td>
+                    <td><input type="text" value="{{shipment.company}}" name="company"></td>
+                    <td><input type="text" value="{{shipment.etc}}" name="etc"></td>
+                    <td>
+                        <a href=""><button>수정하기</button></a>
+                    </td>
+                </form>
+                <td><a href="{% url 'delete' shipment.id %}"><button>삭제하기</button></a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <form method="post">
+                    {% csrf_token %}
+                    <td><input type="date" name="date"></td>
+                    <td><input type="text" name="customer"></td>
+                    <td><input type="text" name="bl"></td>
+                    <td><input type="text" name="pic"></td>
+                    <td><select name="status">
+                            <option value="배차전">배차전</option>
+                            <option value="배차중">배차중</option>
+                            <option value="배차완료">배차완료</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="trc"></td>
+                    <td><input type="text" name="company"></td>
+                    <td><input type="text" name="etc"></td>
+                    <td><button>저장하기</button></td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="alert-box" id="alert">
+        <p id="id">ㅇㅇㅇ</p>
+        <button id="close">닫기</button>
+    </div>
+
+    <button onclick="id알림('block');">버튼1</button>
+    <button onclick="pw알림('block');">버튼2</button>
+
+    <div class="alert alert-danger">
+        <span class="seconds">5</span>초
+    </div>
+
+    <div class="container mt-3">
+        <div class="card p-3">
+
+        </div>
+    </div>
+
+
+
+
+
+
+    {% include 'base/footer.html'%}
+
+
+    <script>
+        var car2 = {name : '소나타', price : [50000, 3000, 4000]}
+
+
+
+
+        function 합격했냐(개론, 민법) {
+            if (개론 + 민법 >= 120) {
+                console.log('합격')
+            }
+            else if (개론 < 40 || 민법 < 40) {
+                console.log('불합격')
+            }
+            else {
+                console.log('불합격')
+            }
+        }
+
+        $('#click').on('click', function () {
+            var multiplication = document.getElementById('multiplication').value
+            if (multiplication % 9 == 0) {
+                console.log('짝짝')
+            }
+            else if (multiplication % 3 == 0) {
+                console.log('짝')
+            }
+            else {
+                console.log('x')
+            }
+        })
+
+
+        var valueByID = $('#emali').val();
+        var valueByPW = $('#pw').val();
+
+        $('#success').on('submit', function (e) {
+            if ((document.getElementById('email').value == '') && (document.getElementById('pw').value == '')) {
+                alert('아이디/비번 입력하쇼')
+                e.preventDefault();
+            }
+            else if (document.getElementById('pw').value.length < 6) {
+                alert('더 길게 입력하쇼')
+                e.preventDefault();
+            }
+        });
+
+
+        $('#send').on('click', function () {
+            if ($().value == '') {
+                $('#alert').addClass
+            } else { }
+        })
+
+        $('#login').on('click', function () {
+            $('.black-bg').addClass('show-modal')
+        })
+
+
+        document.getElementById('close').addEventListener('click', function () {
+            document.querySelector('.black-bg').classList.remove('show-modal')
+        })
+
+        function id알림() {
+            document.getElementById('id').innerHTML = 'id입력';
+            document.getElementById('alert').style.display = 'block';
+        }
+
+        function pw알림() {
+            document.getElementById('id').innerHTML = 'pw입력';
+            document.getElementById('alert').style.display = 'block';
+        }
+
+        var count = 0;
+
+        $('.badge').on('click', function () {
+            count = count + 1;
+            if (count % 2 == 1) {
+                $('.badge').html('Light 🔄')
+                $('.body').addClass('dark')
+            }
+            else {
+                $('.badge').html('Dark 🔄')
+                $('.body').removeClass('dark')
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>
